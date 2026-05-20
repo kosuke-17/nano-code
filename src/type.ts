@@ -18,7 +18,7 @@ export type ToolResult = {
 
 export type Message = 
   | { role: "user" | "system", content: string }
-  | { role: "assistant", constent: string, toolCalls?: ToolCall[] }
+  | { role: "assistant", content: string, toolCalls?: ToolCall[] }
   | { role: "tool", toolCallId: string, name: string, content: string }
 
   export type Usage = {
@@ -42,11 +42,11 @@ export type GenerateParams = {
   signal?: AbortSignal
 }
 
-export interface LangageModel {
+export interface LanguageModel {
   doGenerate(params: GenerateParams): Promise<GenerateTextResult>
 }
 
-export type Provider = (modelId: string) => LangageModel
+export type Provider = (modelId: string) => LanguageModel
 
 export class LLMApiError extends Error {
   constructor(
