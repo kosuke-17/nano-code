@@ -30,6 +30,7 @@ export const writeFile = {
   name: "writeFile",
   description:
     "指定されたパスにファイルを作成または上書きする。ディレクトリが存在しない場合は自動的に作成される。",
+  needsApproval: true,
   parameters: {
     type: "object",
     properties: {

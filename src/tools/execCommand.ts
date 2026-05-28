@@ -163,6 +163,7 @@ export const execCommand = {
   name: "execCommand",
   description:
     "ワークスペース内で許可された汎用コマンドを実行する。利用可能なコマンドはbun, ls, git, ghです。",
+  needsApproval: true,
   parameters: {
     type: "object",
     properties: {
