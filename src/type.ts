@@ -3,7 +3,7 @@ export type Tool = {
   description: string;
   needsApproval: boolean;
   parameters: Record<string, unknown>;
-  execute: (args: Record<string, unknown>) => Promise<void>;
+  execute: (args: Record<string, unknown>) => Promise<string>;
 };
 
 export type ToolCall = {
