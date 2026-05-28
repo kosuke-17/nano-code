@@ -118,8 +118,6 @@ const messages: Message[] = [
 const openai = createOpenAI();
 const model = openai("gpt-4o-mini");
 
-const result = await generateText({ model, messages });
-
 while (true) {
   const response = await generateText({
     model,
