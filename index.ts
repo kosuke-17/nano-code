@@ -7,6 +7,7 @@ import { editFile } from "./src/tools/editFile";
 import { execCommand } from "./src/tools/execCommand";
 import { tools } from "./src/tools";
 import { requestApproval } from "./src/core/approval";
+import { Agent } from "./src/core/agent";
 
 // const messages: Message[] = [
 //   { role: "user", content: "AIエージェントとは何ですか？" },
@@ -110,76 +111,29 @@ import { requestApproval } from "./src/core/approval";
 // }
 
 // ツール動作確認
-const messages: Message[] = [
-  { role: "system", content: "あなたは親切なアシスタントです。" },
-  { role: "user", content: "2 + 2 + 100はいくつですか?" },
-];
+//
 
+// コーディングエージェント
 const openai = createOpenAI();
 const model = openai("gpt-4o-mini");
 
-while (true) {
-  const response = await generateText({
-    model,
-    messages,
-    tools,
-  });
+const codingAgent = new Agent({
+  name: "nano-code",
+  instructions:
+    "あなたはコーディングエージェントです。慎重に作業してください。",
+  model,
+  tools: {
+    readFile,
+    writeFile,
+    editFile,
+    execCommand,
+  },
+  maxSteps: 20,
+  verbose: true,
+});
 
-  if (response.text) {
-    console.log(response.text);
-  }
+const result = await codingAgent.generate(
+  "test/app.tsにAppコンポーネントを書いて",
+);
 
-  if (response.toolCalls && response.toolCalls.length > 0) {
-    messages.push({
-      role: "assistant",
-      content: response.text,
-      toolCalls: response.toolCalls,
-    });
-  }
-
-  for (const toolCall of response.toolCalls || []) {
-    const tool = tools.find((t) => t.name === toolCall.name);
-
-    if (!tool) {
-      throw new Error(`Unknown tool: ${toolCall.name}`);
-    }
-
-    console.log(`[ツール実行] ${toolCall.name}`);
-
-    if (tool.needsApproval) {
-      const approved = await requestApproval(toolCall.name, toolCall.args);
-
-      if (!approved) {
-        messages.push({
-          role: "tool",
-          toolCallId: toolCall.toolCallId,
-          name: toolCall.name,
-          content:
-            "ユーザーによってキャンセルされました。別の方法を検討してください",
-        });
-        continue;
-      }
-    }
-
-    const result = await executeTool(tool, toolCall.args);
-
-    messages.push({
-      role: "tool",
-      toolCallId: toolCall.toolCallId,
-      name: toolCall.name,
-      content: result,
-    });
-  }
-  continue;
-}
-
-async function executeTool(
-  tool: Tool,
-  args: Record<string, unknown>,
-): Promise<string> {
-  try {
-    return await tool.execute(args);
-  } catch (err: any) {
-    return `エラー: ${err?.message ?? "不明なエラー"}`;
-  }
-}
+console.log(result.text);
