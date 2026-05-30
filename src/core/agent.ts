@@ -34,7 +34,7 @@ export class Agent {
     this.instructions = config.instructions;
     this.model = config.model;
     this.tools = Object.values(config.tools);
-    this.maxSteps = config.maxSteps ?? 10;
+    this.maxSteps = config.maxSteps ?? 100;
     this.verbose = config.verbose ?? false;
     this.approvalFunc = config.approvalFunc ?? requestApproval;
   }
