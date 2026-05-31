@@ -1,7 +1,8 @@
 import { createOpenAI } from "./openai";
+import { createOllama } from "./ollama";
 import type { LanguageModel } from "../tools/file-operation/type";
 
-const DEFAULT_OLLAMA_BASE_URL = "http://localhost:11434/v1";
+const DEFAULT_OLLAMA_BASE_URL = "http://localhost:11434";
 
 export function createModelFromEnv(): LanguageModel {
   const provider = process.env.LLM_PROVIDER;
@@ -26,10 +27,7 @@ export function createModelFromEnv(): LanguageModel {
     }
     case "ollama": {
       const baseURL = process.env.OLLAMA_BASE_URL ?? DEFAULT_OLLAMA_BASE_URL;
-      const ollama = createOpenAI({
-        apiKey: "ollama",
-        baseURL,
-      });
+      const ollama = createOllama({ baseURL });
       return ollama(modelName);
     }
     default:
