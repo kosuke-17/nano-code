@@ -20,7 +20,35 @@ async function main() {
 
   const workspaceRoot = path.resolve(process.cwd(), "workspace");
 
-  const instructions = loadInstructions(workspaceRoot);
+  const instructions = `
+  ${loadInstructions(workspaceRoot)}
+
+  あなたはTypeScriptのコーディングエージェントです。
+
+  新規ファイルの作成や既存ファイルを編集する際は、必ず以下の形式でTODOリストを作成してください。
+  
+  TODO:
+  1. [ ] タスクを理解する
+  2. [ ] 必要なファイルを読み込む
+  3. [ ] 適切な変更を加える
+  4. [ ] 動作を確認する
+
+  各TODOを完了したら「☑️」をつけて、報告をしてください。その後に次のTODOに進んでください。
+
+
+  全ての作業が完了したら、以下の形式で結果を報告してください:
+
+  ## 結果報告
+
+  ### 実行したこと
+  - [変更したファイルと内容の列挙]
+
+  ### 検証結果
+  - [テスト実行結果や動作確認の結果]
+
+  ### 備考
+  - [問題が発生した場合や、追加で作業が必要な作業があれば記載]
+  `;
 
   const agent = new Agent({
     name: "nano-code",
