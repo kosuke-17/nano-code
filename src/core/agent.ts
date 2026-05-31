@@ -1,6 +1,10 @@
 import { generateText } from "./generate-text";
 import { requestApproval } from "./approval";
-import type { LanguageModel, Message, Tool } from "../type";
+import type {
+  LanguageModel,
+  Message,
+  Tool,
+} from "../tools/file-operation/type";
 
 interface AgentConfig {
   name: string;

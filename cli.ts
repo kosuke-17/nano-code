@@ -2,10 +2,9 @@ import * as path from "path";
 import { loadInstructions } from "./src/core/prompt";
 import { createModelFromEnv } from "./src/providers/modelFactory";
 import { Agent } from "./src/core/agent";
-import { readFile } from "./src/tools/readFile";
-import { writeFile } from "./src/tools/writeFile";
-import { editFile } from "./src/tools/editFile";
-import { execCommand } from "./src/tools/execCommand";
+import { tools as fileOperationTools } from "./src/tools/file-operation";
+
+const [readFile, writeFile, editFile, execCommand] = fileOperationTools;
 
 async function main() {
   const args = process.argv.slice(2);

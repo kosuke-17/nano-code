@@ -1,13 +1,11 @@
 import { createOpenAI } from "./src/providers/openai";
 import { generateText } from "./src/core/generate-text";
-import type { Message, Tool } from "./src/type";
-import { writeFile } from "./src/tools/writeFile";
-import { readFile } from "./src/tools/readFile";
-import { editFile } from "./src/tools/editFile";
-import { execCommand } from "./src/tools/execCommand";
-import { tools } from "./src/tools";
+import type { Message, Tool } from "./src/tools/file-operation/type";
+import { tools as fileOperationTools } from "./src/tools/file-operation";
 import { requestApproval } from "./src/core/approval";
 import { Agent } from "./src/core/agent";
+
+const [readFile, writeFile, editFile, execCommand] = fileOperationTools;
 
 // const messages: Message[] = [
 //   { role: "user", content: "AIエージェントとは何ですか？" },

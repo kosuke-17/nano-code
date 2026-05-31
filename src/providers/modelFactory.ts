@@ -1,5 +1,5 @@
 import { createOpenAI } from "./openai";
-import type { LanguageModel } from "../type";
+import type { LanguageModel } from "../tools/file-operation/type";
 
 const DEFAULT_OLLAMA_BASE_URL = "http://localhost:11434/v1";
 
@@ -19,16 +19,13 @@ export function createModelFromEnv(): LanguageModel {
     case "openai": {
       const apiKey = process.env.LLM_API_KEY;
       if (!apiKey) {
-        throw new Error(
-          "LLM_PROVIDER=openai の場合、LLM_API_KEY が必要です。",
-        );
+        throw new Error("LLM_PROVIDER=openai の場合、LLM_API_KEY が必要です。");
       }
       const openai = createOpenAI({ apiKey });
       return openai(modelName);
     }
     case "ollama": {
-      const baseURL =
-        process.env.OLLAMA_BASE_URL ?? DEFAULT_OLLAMA_BASE_URL;
+      const baseURL = process.env.OLLAMA_BASE_URL ?? DEFAULT_OLLAMA_BASE_URL;
       const ollama = createOpenAI({
         apiKey: "ollama",
         baseURL,

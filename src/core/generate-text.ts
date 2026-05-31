@@ -2,7 +2,7 @@ import type {
   GenerateParams,
   GenerateTextResult,
   LanguageModel,
-} from "../type";
+} from "../tools/file-operation/type";
 
 type GenerateTextParams = GenerateParams & {
   model: LanguageModel;
